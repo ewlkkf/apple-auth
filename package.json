@@ -1,6 +1,6 @@
 {
   "name": "@zebedee/apple-auth",
-  "version": "1.0.10",
+  "version": "1.1.0",
   "description": "Sign in with Apple for NodeJS",
   "main": "src/apple-auth.js",
   "types": "src/apple-auth.d.ts",
