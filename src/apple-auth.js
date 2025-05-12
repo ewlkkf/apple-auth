@@ -8,24 +8,25 @@ const axios = require('axios');
 const AppleClientSecret = require("./token");
 const crypto = require('crypto');
 const qs = require('querystring');
+const { Buffer } = require('node:buffer');
 
 class AppleAuth {
 
     /**
      * Configure the parameters of the Apple Auth class
-     * @param {object} config - Configuration options
-     * @param {string} config.client_id – Client ID (also known as the Services ID
+     * @param {object} config Configuration options
+     * @param {string} config.client_id Client ID (also known as the Services ID
      *  in Apple's Developer Portal). Example: com.ananayarora.app
-     * @param {string} config.team_id – Team ID for the Apple Developer Account
+     * @param {string} config.team_id Team ID for the Apple Developer Account
      *  found on top right corner of the developers page
-     * @param {string} config.redirect_uri – The OAuth Redirect URI
-     * @param {string} config.key_id – The identifier for the private key on the Apple
-     * @param {string} config.scope - the scope of information you want to get from the user (user name and email)
+     * @param {string} config.redirect_uri The OAuth Redirect URI
+     * @param {string} config.key_id The identifier for the private key on the Apple
+     * @param {string} config.scope the scope of information you want to get from the user (user name and email)
      *  Developer Account page
-     * @param {string} privateKeyLocation - Private Key Location / the key itself
-     * @param {string} privateKeyMethod - Private Key Method (can be either 'file' or 'text')
-     * @param {object} customConfig - Custom Configuration options
-     * @param {boolean} customConfig.debug - Enable debug mode. This will print the verbose error messages returned by Apple's servers
+     * @param {string} privateKeyLocation Private Key Location / the key itself
+     * @param {string} privateKeyMethod Private Key Method (can be either 'file' or 'text')
+     * @param {object} customConfig Custom Configuration options
+     * @param {boolean} customConfig.debug Enable debug mode. This will print the verbose error messages returned by Apple's servers
      */
 
     constructor(config, privateKey, privateKeyMethod, customConfig = {}) {
@@ -54,7 +55,7 @@ class AppleAuth {
 
     /**
      * Return the state for the OAuth 2 process
-     * @returns {string} state – The state bytes in hex format
+     * @returns {string} state –The state bytes in hex format
      */
 
     get state() {
@@ -63,7 +64,7 @@ class AppleAuth {
 
     /**
      * Generates the Login URL
-     * @returns {string} url – The Login URL
+     * @returns {string} url –The Login URL
      */
 
     loginURL() {
@@ -108,11 +109,10 @@ class AppleAuth {
                             console.error(error);
                             reject("AppleAuth Error - An error occurred while getting response from Apple's servers: " + error + " - " + error?.response?.data?.error_description);
                         }
-                        // If customConfig.debug isn't set, output in this format.                       
-                        const responseData = response.response?.data
+                        // If customConfig.debug isn't set, output in this format.
                         reject(
                             `AppleAuth Error - An error occurred while getting response from Apple's servers: 
-                            ${response}${responseData ? (" | " + responseData) : ""}`
+                            ${JSON.stringify(error)}`
                         );
                     });
                 }).catch((err) => {
@@ -149,7 +149,7 @@ class AppleAuth {
                         resolve(response.data);
                     }).catch((err) => {
                         if(this._customConfig?.debug) {
-                            console.error(response);
+                            console.error(err);
                             reject("AppleAuth Error - An error occurred while getting response from Apple's servers: " + err + " - " + err?.response?.data?.error_description);
                         }
                         reject("AppleAuth Error - An error occurred while getting response from Apple's servers: " + err);
@@ -180,7 +180,7 @@ class AppleAuth {
                         resolve(response.data);
                     }).catch((err) => {
                         if(this._customConfig?.debug) {
-                            console.error(response);
+                            console.error(err);
                             reject("AppleAuth Error - An error occurred while getting response from Apple's servers: " + err + " - " + err?.response?.data?.error_description);
                         }
                         reject("AppleAuth Error - An error occurred while getting response from Apple's servers: " + err);

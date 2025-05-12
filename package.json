@@ -1,12 +1,13 @@
 {
-  "name": "apple-auth",
+  "name": "@zebedee/apple-auth",
   "version": "1.0.10",
   "description": "Sign in with Apple for NodeJS",
   "main": "src/apple-auth.js",
   "types": "src/apple-auth.d.ts",
   "scripts": {
     "dev": "nodemon src/apple-auth.js",
-    "start": "node src/apple-auth.js"
+    "start": "node src/apple-auth.js",
+    "lint": "eslint"
   },
   "repository": {
     "type": "git",
@@ -30,5 +31,10 @@
   "bugs": {
     "url": "https://github.com/ananay/apple-auth/issues"
   },
-  "homepage": "https://github.com/ananay/apple-auth#readme"
+  "homepage": "https://github.com/ananay/apple-auth#readme",
+  "devDependencies": {
+    "@eslint/js": "^9.26.0",
+    "eslint": "^9.26.0",
+    "globals": "^16.1.0"
+  }
 }
